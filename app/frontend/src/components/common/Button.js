@@ -3,7 +3,7 @@ import '../../styles/common/Button.css';
 
 const Button = ({
   children,
-  type = 'button', 
+  type = 'button',
   variant = 'primary',
   size = 'medium',
   disabled = false,
@@ -30,7 +30,7 @@ const Button = ({
       onClick={onClick}
       {...props}
     >
-      {loading && <span className="loading-spinner"></span>}
+      {loading && <span className="progress-bar"></span>}
       <span className={loading ? 'button-text-with-loader' : ''}>{children}</span>
     </button>
   );

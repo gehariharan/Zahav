@@ -1,7 +1,7 @@
 from typing import List, Optional
 from datetime import datetime
 
-from fastapi import APIRouter, Depends, HTTPException, Query, Path
+from fastapi import APIRouter, Depends, HTTPException, Path
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 
@@ -66,11 +66,11 @@ async def create_booking(
         total_amount=booking.total_amount,
         notes=booking.notes,
     )
-    
+
     db.add(new_booking)
     db.commit()
     db.refresh(new_booking)
-    
+
     return new_booking
 
 
@@ -84,10 +84,10 @@ async def get_user_bookings(
 ):
     """Get bookings for the current user."""
     query = db.query(Booking).filter(Booking.user_id == current_user.id)
-    
+
     if status:
         query = query.filter(Booking.status == status)
-    
+
     bookings = query.order_by(Booking.created_at.desc()).offset(skip).limit(limit).all()
     return bookings
 
@@ -102,13 +102,13 @@ async def get_all_bookings(
 ):
     """Get all bookings (admin only)."""
     query = db.query(Booking)
-    
+
     if status:
         query = query.filter(Booking.status == status)
-    
+
     if user_id:
         query = query.filter(Booking.user_id == user_id)
-    
+
     bookings = query.order_by(Booking.created_at.desc()).offset(skip).limit(limit).all()
     return bookings
 
@@ -121,14 +121,14 @@ async def get_booking(
 ):
     """Get a specific booking."""
     booking = db.query(Booking).filter(Booking.id == booking_id).first()
-    
+
     if not booking:
         raise HTTPException(status_code=404, detail="Booking not found")
-    
+
     # Check if the booking belongs to the current user or user is admin
     if booking.user_id != current_user.id and not current_user.is_admin:
         raise HTTPException(status_code=403, detail="Not authorized to access this booking")
-    
+
     return booking
 
 
@@ -141,39 +141,39 @@ async def update_booking(
 ):
     """Update a booking."""
     booking = db.query(Booking).filter(Booking.id == booking_id).first()
-    
+
     if not booking:
         raise HTTPException(status_code=404, detail="Booking not found")
-    
+
     # Regular users can only update their own bookings, and only if status is pending
     if not current_user.is_admin:
         if booking.user_id != current_user.id:
             raise HTTPException(status_code=403, detail="Not authorized to update this booking")
-        
+
         if booking.status != BookingStatus.PENDING:
             raise HTTPException(
-                status_code=400, 
+                status_code=400,
                 detail="Booking cannot be updated because it's not in pending status"
             )
-        
+
         # Regular users can only update notes
         if booking_update.status is not None:
             raise HTTPException(
-                status_code=403, 
+                status_code=403,
                 detail="Regular users can only update booking notes"
             )
-    
+
     # Update fields
     if booking_update.status is not None:
         booking.status = booking_update.status
-    
+
     if booking_update.notes is not None:
         booking.notes = booking_update.notes
-    
+
     db.add(booking)
     db.commit()
     db.refresh(booking)
-    
+
     return booking
 
 
@@ -185,25 +185,25 @@ async def cancel_booking(
 ):
     """Cancel a booking."""
     booking = db.query(Booking).filter(Booking.id == booking_id).first()
-    
+
     if not booking:
         raise HTTPException(status_code=404, detail="Booking not found")
-    
+
     # Regular users can only cancel their own bookings, and only if status is pending
     if not current_user.is_admin:
         if booking.user_id != current_user.id:
             raise HTTPException(status_code=403, detail="Not authorized to cancel this booking")
-        
+
         if booking.status != BookingStatus.PENDING:
             raise HTTPException(
-                status_code=400, 
+                status_code=400,
                 detail="Booking cannot be cancelled because it's not in pending status"
             )
-    
+
     # Update status to cancelled
     booking.status = BookingStatus.CANCELLED
-    
+
     db.add(booking)
     db.commit()
-    
+
     return None

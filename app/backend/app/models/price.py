@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Float, String, DateTime, Enum
+from sqlalchemy import Column, Integer, Float, String, DateTime
 from sqlalchemy.sql import func
 import enum
 
@@ -15,7 +15,7 @@ class MetalType(str, enum.Enum):
 
 class PriceRecord(Base):
     """Price record model for storing historical prices."""
-    
+
     __tablename__ = "price_records"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -25,7 +25,7 @@ class PriceRecord(Base):
     bid_price = Column(Float, nullable=False)
     ask_price = Column(Float, nullable=False)
     timestamp = Column(DateTime(timezone=True), server_default=func.now(), index=True)
-    
+
     # Optional fields for tracking daily ranges
     day_high = Column(Float, nullable=True)
     day_low = Column(Float, nullable=True)
@@ -33,7 +33,7 @@ class PriceRecord(Base):
 
 class CurrencyRate(Base):
     """Currency rate model for storing exchange rates."""
-    
+
     __tablename__ = "currency_rates"
 
     id = Column(Integer, primary_key=True, index=True)

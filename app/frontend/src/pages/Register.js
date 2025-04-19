@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { checkApiHealth } from '../utils/apiHealth';
 import '../styles/Auth.css';
 
 const Register = () => {
@@ -15,8 +16,23 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [apiStatus, setApiStatus] = useState({ checked: false, healthy: true, message: '' });
   const { register } = useAuth();
   const navigate = useNavigate();
+
+  // Check API health on component mount
+  useEffect(() => {
+    const checkHealth = async () => {
+      const health = await checkApiHealth();
+      setApiStatus({
+        checked: true,
+        healthy: health.isHealthy,
+        message: health.message
+      });
+    };
+
+    checkHealth();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -52,7 +68,7 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Validate form
     if (!validateForm()) {
       return;
@@ -62,20 +78,32 @@ const Register = () => {
     setErrorMessage('');
     setSuccessMessage('');
 
+    // Log registration attempt
+    console.log('Attempting to register with:', {
+      username: formData.username,
+      email: formData.email,
+      password: '********', // Don't log actual password
+      company_name: formData.company_name || '(not provided)'
+    });
+
     try {
-      const result = await register({
+      const userData = {
         username: formData.username,
         email: formData.email,
         password: formData.password,
-        company_name: formData.company_name,
-      });
+        company_name: formData.company_name || undefined // Don't send empty string
+      };
+
+      const result = await register(userData);
 
       if (result.success) {
+        console.log('Registration successful');
         setSuccessMessage('Registration successful! You can now log in.');
         setTimeout(() => {
           navigate('/login');
         }, 2000);
       } else {
+        console.log('Registration failed with error:', result.error);
         setErrorMessage(result.error || 'Registration failed. Please try again.');
       }
     } catch (error) {
@@ -91,6 +119,11 @@ const Register = () => {
       <h2>Create Account</h2>
       <p className="auth-message">Join Zahav and access premium bullion dealer services</p>
 
+      {!apiStatus.healthy && apiStatus.checked && (
+        <div className="alert alert-error">
+          <strong>Backend Connection Error:</strong> {apiStatus.message}
+        </div>
+      )}
       {errorMessage && <div className="alert alert-error">{errorMessage}</div>}
       {successMessage && <div className="alert alert-success">{successMessage}</div>}
 

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Float, String, DateTime, Boolean, ForeignKey, Enum
+from sqlalchemy import Column, Integer, Float, String, DateTime, Boolean, ForeignKey
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 import enum
@@ -20,7 +20,7 @@ class AlertCondition(str, enum.Enum):
 
 class PriceAlert(Base):
     """Price alert model for notifications."""
-    
+
     __tablename__ = "price_alerts"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -36,6 +36,6 @@ class PriceAlert(Base):
     triggered_at = Column(DateTime(timezone=True), nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-    
+
     # Relationships
     user = relationship("User", backref="price_alerts")

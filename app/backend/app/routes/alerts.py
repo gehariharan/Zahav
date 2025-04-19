@@ -1,14 +1,14 @@
 from typing import List, Optional
 from datetime import datetime
 
-from fastapi import APIRouter, Depends, HTTPException, Query, Path
+from fastapi import APIRouter, Depends, HTTPException, Path
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 
 from app.db.database import get_db
 from app.models.alert import PriceAlert, AlertType, AlertCondition
 from app.models.user import User
-from app.utils.auth import get_current_active_user, get_current_admin_user
+from app.utils.auth import get_current_active_user
 
 router = APIRouter(
     prefix="/alerts",
@@ -59,17 +59,17 @@ async def create_alert(
     # Validate alert_type
     if alert.alert_type not in [at.value for at in AlertType]:
         raise HTTPException(
-            status_code=400, 
+            status_code=400,
             detail=f"Invalid alert type. Must be one of: {', '.join([at.value for at in AlertType])}"
         )
-    
+
     # Validate condition
     if alert.condition not in [ac.value for ac in AlertCondition]:
         raise HTTPException(
-            status_code=400, 
+            status_code=400,
             detail=f"Invalid condition. Must be one of: {', '.join([ac.value for ac in AlertCondition])}"
         )
-    
+
     new_alert = PriceAlert(
         user_id=current_user.id,
         metal_type=alert.metal_type,
@@ -79,11 +79,11 @@ async def create_alert(
         target_value=alert.target_value,
         condition=alert.condition,
     )
-    
+
     db.add(new_alert)
     db.commit()
     db.refresh(new_alert)
-    
+
     return new_alert
 
 
@@ -97,16 +97,16 @@ async def get_user_alerts(
 ):
     """Get alerts for the current user."""
     query = db.query(PriceAlert).filter(PriceAlert.user_id == current_user.id)
-    
+
     if is_active is not None:
         query = query.filter(PriceAlert.is_active == is_active)
-    
+
     if is_triggered is not None:
         query = query.filter(PriceAlert.is_triggered == is_triggered)
-    
+
     if metal_type:
         query = query.filter(PriceAlert.metal_type == metal_type)
-    
+
     alerts = query.order_by(PriceAlert.created_at.desc()).all()
     return alerts
 
@@ -119,14 +119,14 @@ async def get_alert(
 ):
     """Get a specific price alert."""
     alert = db.query(PriceAlert).filter(PriceAlert.id == alert_id).first()
-    
+
     if not alert:
         raise HTTPException(status_code=404, detail="Alert not found")
-    
+
     # Check if the alert belongs to the current user
     if alert.user_id != current_user.id:
         raise HTTPException(status_code=403, detail="Not authorized to access this alert")
-    
+
     return alert
 
 
@@ -139,36 +139,36 @@ async def update_alert(
 ):
     """Update a price alert."""
     alert = db.query(PriceAlert).filter(PriceAlert.id == alert_id).first()
-    
+
     if not alert:
         raise HTTPException(status_code=404, detail="Alert not found")
-    
+
     # Check if the alert belongs to the current user
     if alert.user_id != current_user.id:
         raise HTTPException(status_code=403, detail="Not authorized to update this alert")
-    
+
     # Validate condition if provided
     if alert_update.condition is not None:
         if alert_update.condition not in [ac.value for ac in AlertCondition]:
             raise HTTPException(
-                status_code=400, 
+                status_code=400,
                 detail=f"Invalid condition. Must be one of: {', '.join([ac.value for ac in AlertCondition])}"
             )
-    
+
     # Update fields if provided
     if alert_update.target_value is not None:
         alert.target_value = alert_update.target_value
-    
+
     if alert_update.condition is not None:
         alert.condition = alert_update.condition
-    
+
     if alert_update.is_active is not None:
         alert.is_active = alert_update.is_active
-    
+
     db.add(alert)
     db.commit()
     db.refresh(alert)
-    
+
     return alert
 
 
@@ -180,15 +180,15 @@ async def delete_alert(
 ):
     """Delete a price alert."""
     alert = db.query(PriceAlert).filter(PriceAlert.id == alert_id).first()
-    
+
     if not alert:
         raise HTTPException(status_code=404, detail="Alert not found")
-    
+
     # Check if the alert belongs to the current user
     if alert.user_id != current_user.id:
         raise HTTPException(status_code=403, detail="Not authorized to delete this alert")
-    
+
     db.delete(alert)
     db.commit()
-    
+
     return None

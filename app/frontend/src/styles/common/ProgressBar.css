@@ -1,0 +1,68 @@
+/* ProgressBar Component Styles */
+.progress-container {
+  width: 100%;
+  height: 4px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Progress Bar Sizes */
+.progress-small {
+  height: 2px;
+}
+
+.progress-medium {
+  height: 4px;
+}
+
+.progress-large {
+  height: 6px;
+}
+
+/* Progress Bar Variants */
+.progress-primary .progress-bar {
+  background-color: var(--primary-color);
+}
+
+.progress-secondary .progress-bar {
+  background-color: var(--text-color);
+}
+
+.progress-success .progress-bar {
+  background-color: var(--success-color);
+}
+
+.progress-warning .progress-bar {
+  background-color: var(--warning-color);
+}
+
+.progress-danger .progress-bar {
+  background-color: var(--error-color);
+}
+
+/* Determinate Progress Bar */
+.progress-bar {
+  height: 100%;
+  width: 0;
+  transition: width 0.3s ease;
+}
+
+/* Indeterminate Progress Bar Animation */
+.progress-indeterminate {
+  width: 100%;
+  animation: progress 1.5s ease-in-out infinite;
+}
+
+@keyframes progress {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}

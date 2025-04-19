@@ -1,0 +1,41 @@
+/* LoadingOverlay Component Styles */
+.loading-overlay-container {
+  position: relative;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  border-radius: 4px;
+}
+
+.loading-overlay-fullscreen {
+  position: fixed;
+  z-index: 9999;
+}
+
+.loading-overlay-content {
+  text-align: center;
+  padding: 1rem;
+  max-width: 80%;
+}
+
+.loading-progress-container {
+  width: 200px;
+  margin-bottom: 1rem;
+}
+
+.loading-message {
+  font-size: 1rem;
+  color: var(--text-color);
+  margin-top: 0.5rem;
+  font-weight: 500;
+}

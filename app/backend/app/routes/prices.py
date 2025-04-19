@@ -1,14 +1,13 @@
 from typing import List, Optional
-from datetime import datetime, timedelta
+from datetime import datetime
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 
 from app.db.database import get_db
 from app.models.price import PriceRecord, CurrencyRate
-from app.models.user import User
-from app.utils.auth import get_current_active_user, get_current_admin_user
+from app.utils.auth import get_current_admin_user
 
 router = APIRouter(
     prefix="/prices",
@@ -57,13 +56,13 @@ async def get_current_prices(
 ):
     """Get current (latest) prices."""
     query = db.query(PriceRecord)
-    
+
     if metal_type:
         query = query.filter(PriceRecord.metal_type == metal_type)
-    
+
     if currency:
         query = query.filter(PriceRecord.currency == currency)
-    
+
     # Get the latest timestamp for each metal_type, purity, and currency combination
     subquery = (
         db.query(
@@ -75,7 +74,7 @@ async def get_current_prices(
         .group_by(PriceRecord.metal_type, PriceRecord.purity, PriceRecord.currency)
         .subquery()
     )
-    
+
     latest_prices = (
         query.join(
             subquery,
@@ -86,7 +85,7 @@ async def get_current_prices(
         )
         .all()
     )
-    
+
     return latest_prices
 
 
@@ -105,16 +104,16 @@ async def get_historical_prices(
         PriceRecord.purity == purity,
         PriceRecord.currency == currency,
     )
-    
+
     if start_date:
         query = query.filter(PriceRecord.timestamp >= start_date)
-    
+
     if end_date:
         query = query.filter(PriceRecord.timestamp <= end_date)
-    
+
     # Order by timestamp
     query = query.order_by(PriceRecord.timestamp.desc())
-    
+
     prices = query.all()
     return prices
 
@@ -136,11 +135,11 @@ async def create_price(
         day_high=price.day_high,
         day_low=price.day_low,
     )
-    
+
     db.add(new_price)
     db.commit()
     db.refresh(new_price)
-    
+
     return {"id": new_price.id, "message": "Price record created successfully"}
 
 
@@ -152,13 +151,13 @@ async def get_currency_rates(
 ):
     """Get latest currency exchange rates."""
     query = db.query(CurrencyRate)
-    
+
     if from_currency:
         query = query.filter(CurrencyRate.from_currency == from_currency)
-    
+
     if to_currency:
         query = query.filter(CurrencyRate.to_currency == to_currency)
-    
+
     # Get latest rates
     subquery = (
         db.query(
@@ -169,7 +168,7 @@ async def get_currency_rates(
         .group_by(CurrencyRate.from_currency, CurrencyRate.to_currency)
         .subquery()
     )
-    
+
     latest_rates = (
         query.join(
             subquery,
@@ -179,7 +178,7 @@ async def get_currency_rates(
         )
         .all()
     )
-    
+
     return latest_rates
 
 
@@ -196,9 +195,9 @@ async def create_currency_rate(
         to_currency=rate.to_currency,
         rate=rate.rate,
     )
-    
+
     db.add(new_rate)
     db.commit()
     db.refresh(new_rate)
-    
+
     return {"id": new_rate.id, "message": "Currency rate created successfully"}

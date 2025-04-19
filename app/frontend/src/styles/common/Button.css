@@ -122,34 +122,42 @@
 /* Loading State */
 .button-loading {
   color: transparent !important;
+  position: relative;
+  overflow: hidden;
 }
 
-.loading-spinner {
+.progress-bar {
   position: absolute;
-  width: 16px;
-  height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top-color: white;
-  animation: spin 0.8s linear infinite;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  background-color: rgba(255, 255, 255, 0.7);
+  animation: progress 1.5s ease-in-out infinite;
+  width: 100%;
 }
 
-.button-secondary .loading-spinner {
-  border: 2px solid rgba(0, 0, 0, 0.1);
-  border-top-color: var(--text-color);
+.button-secondary .progress-bar {
+  background-color: var(--primary-color);
+  opacity: 0.7;
 }
 
-.button-text .loading-spinner {
-  border: 2px solid rgba(184, 134, 11, 0.1);
-  border-top-color: var(--primary-color);
+.button-text .progress-bar {
+  background-color: var(--primary-color);
+  height: 2px;
 }
 
 .button-text-with-loader {
   visibility: hidden;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+@keyframes progress {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
   }
 }

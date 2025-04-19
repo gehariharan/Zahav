@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useBookings } from '../context/BookingContext';
+import { LoadingOverlay } from '../components/common';
 import '../styles/Dashboard.css';
 
 // Mock data for initial display (will be replaced with API calls)
@@ -27,9 +29,10 @@ const mockAlerts = [
 
 const Dashboard = () => {
   const { currentUser, authAxios } = useAuth();
+  const { getRecentBookings } = useBookings();
   const [loading, setLoading] = useState(true);
   const [prices, setPrices] = useState(mockPrices);
-  const [recentBookings, setRecentBookings] = useState(mockBookings);
+  const [recentBookings, setRecentBookings] = useState([]);
   const [activeAlerts, setActiveAlerts] = useState(mockAlerts);
   const [currency, setCurrency] = useState('INR');
   const [error, setError] = useState(null);
@@ -41,17 +44,18 @@ const Dashboard = () => {
         setLoading(true);
         // In a real app, these would be actual API calls
         // const pricesResponse = await authAxios.get('/prices/current');
-        // const bookingsResponse = await authAxios.get('/bookings?limit=3');
         // const alertsResponse = await authAxios.get('/alerts?is_active=true&limit=3');
 
         // setPrices(pricesResponse.data);
-        // setRecentBookings(bookingsResponse.data);
         // setActiveAlerts(alertsResponse.data);
+
+        // Get bookings from BookingContext
+        const userBookings = getRecentBookings(3);
 
         // For now, simulate API delay with mock data
         setTimeout(() => {
           setPrices(mockPrices);
-          setRecentBookings(mockBookings);
+          setRecentBookings(userBookings.length > 0 ? userBookings : []);
           setActiveAlerts(mockAlerts);
           setLoading(false);
         }, 800);
@@ -63,36 +67,37 @@ const Dashboard = () => {
     };
 
     fetchDashboardData();
-  }, [authAxios]);
+  }, [authAxios, getRecentBookings]);
 
   const toggleCurrency = () => {
     setCurrency(prevCurrency => prevCurrency === 'INR' ? 'USD' : 'INR');
   };
-
-  if (loading) {
-    return <div className="loading-spinner">Loading dashboard...</div>;
-  }
 
   if (error) {
     return <div className="alert alert-error">{error}</div>;
   }
 
   return (
-    <div className="dashboard-page">
+    <LoadingOverlay
+      loading={loading}
+      message="Loading dashboard data..."
+      variant="primary"
+    >
+      <div className="dashboard-page">
       <header className="dashboard-header">
         <h1>Welcome, {currentUser?.company_name || currentUser?.username}</h1>
         <p className="date-display">{new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
       </header>
 
       <div className="currency-toggle">
-        <button 
-          className={`currency-btn ${currency === 'INR' ? 'active' : ''}`} 
+        <button
+          className={`currency-btn ${currency === 'INR' ? 'active' : ''}`}
           onClick={() => setCurrency('INR')}
         >
           ₹ INR
         </button>
-        <button 
-          className={`currency-btn ${currency === 'USD' ? 'active' : ''}`} 
+        <button
+          className={`currency-btn ${currency === 'USD' ? 'active' : ''}`}
           onClick={() => setCurrency('USD')}
         >
           $ USD
@@ -116,7 +121,7 @@ const Dashboard = () => {
               <div className="price-row">
                 <div className="price-label">Bid</div>
                 <div className="price-value">
-                  {currency === 'INR' ? '₹' : '$'} 
+                  {currency === 'INR' ? '₹' : '$'}
                   {prices.gold[currency].bid.toLocaleString()}
                   <span className="price-unit">/{currency === 'INR' ? '10g' : 'oz'}</span>
                 </div>
@@ -124,20 +129,20 @@ const Dashboard = () => {
               <div className="price-row">
                 <div className="price-label">Ask</div>
                 <div className="price-value">
-                  {currency === 'INR' ? '₹' : '$'} 
+                  {currency === 'INR' ? '₹' : '$'}
                   {prices.gold[currency].ask.toLocaleString()}
                   <span className="price-unit">/{currency === 'INR' ? '10g' : 'oz'}</span>
                 </div>
               </div>
               <div className="price-range">
                 <div>
-                  <span className="range-label">Day High:</span> 
-                  {currency === 'INR' ? '₹' : '$'} 
+                  <span className="range-label">Day High:</span>
+                  {currency === 'INR' ? '₹' : '$'}
                   {prices.gold[currency].dayHigh.toLocaleString()}
                 </div>
                 <div>
-                  <span className="range-label">Day Low:</span> 
-                  {currency === 'INR' ? '₹' : '$'} 
+                  <span className="range-label">Day Low:</span>
+                  {currency === 'INR' ? '₹' : '$'}
                   {prices.gold[currency].dayLow.toLocaleString()}
                 </div>
               </div>
@@ -162,7 +167,7 @@ const Dashboard = () => {
               <div className="price-row">
                 <div className="price-label">Bid</div>
                 <div className="price-value">
-                  {currency === 'INR' ? '₹' : '$'} 
+                  {currency === 'INR' ? '₹' : '$'}
                   {prices.silver[currency].bid.toLocaleString()}
                   <span className="price-unit">/{currency === 'INR' ? 'kg' : 'oz'}</span>
                 </div>
@@ -170,20 +175,20 @@ const Dashboard = () => {
               <div className="price-row">
                 <div className="price-label">Ask</div>
                 <div className="price-value">
-                  {currency === 'INR' ? '₹' : '$'} 
+                  {currency === 'INR' ? '₹' : '$'}
                   {prices.silver[currency].ask.toLocaleString()}
                   <span className="price-unit">/{currency === 'INR' ? 'kg' : 'oz'}</span>
                 </div>
               </div>
               <div className="price-range">
                 <div>
-                  <span className="range-label">Day High:</span> 
-                  {currency === 'INR' ? '₹' : '$'} 
+                  <span className="range-label">Day High:</span>
+                  {currency === 'INR' ? '₹' : '$'}
                   {prices.silver[currency].dayHigh.toLocaleString()}
                 </div>
                 <div>
-                  <span className="range-label">Day Low:</span> 
-                  {currency === 'INR' ? '₹' : '$'} 
+                  <span className="range-label">Day Low:</span>
+                  {currency === 'INR' ? '₹' : '$'}
                   {prices.silver[currency].dayLow.toLocaleString()}
                 </div>
               </div>
@@ -201,7 +206,7 @@ const Dashboard = () => {
             <h3 className="card-title">Recent Bookings</h3>
             <Link to="/booking" className="view-all-link">View All</Link>
           </div>
-          
+
           {recentBookings.length > 0 ? (
             <div className="bookings-list">
               {recentBookings.map(booking => (
@@ -238,7 +243,7 @@ const Dashboard = () => {
             <h3 className="card-title">Active Alerts</h3>
             <Link to="/alerts" className="view-all-link">View All</Link>
           </div>
-          
+
           {activeAlerts.length > 0 ? (
             <div className="alerts-list">
               {activeAlerts.map(alert => (
@@ -247,7 +252,7 @@ const Dashboard = () => {
                     <div className="alert-primary">
                       <span className="alert-metal">{alert.metal}</span>
                       <span className="alert-condition">
-                        {alert.condition === 'above' ? '↑' : '↓'} 
+                        {alert.condition === 'above' ? '↑' : '↓'}
                         {alert.condition.charAt(0).toUpperCase() + alert.condition.slice(1)}
                       </span>
                     </div>
@@ -276,7 +281,7 @@ const Dashboard = () => {
             <h3 className="card-title">Market News</h3>
             <Link to="/news" className="view-all-link">View All</Link>
           </div>
-          
+
           <div className="news-list">
             <div className="news-item">
               <h4 className="news-title">Gold prices steady as investors await US inflation data</h4>
@@ -294,6 +299,7 @@ const Dashboard = () => {
         </section>
       </div>
     </div>
+    </LoadingOverlay>
   );
 };
 
