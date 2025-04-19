@@ -1,0 +1,123 @@
+/* Authentication Pages Styles */
+
+.auth-page {
+  margin-bottom: 1rem;
+}
+
+.auth-page h2 {
+  text-align: center;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  font-size: 1.75rem;
+}
+
+.auth-message {
+  text-align: center;
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+}
+
+.auth-form {
+  margin-bottom: 1.5rem;
+}
+
+.form-group:last-of-type {
+  margin-bottom: 1.5rem;
+}
+
+.auth-alternative {
+  text-align: center;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.auth-alternative p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+.auth-alternative a {
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+/* Remember me and forgot password row */
+.remember-forgot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.remember-me input[type="checkbox"] {
+  accent-color: var(--primary-color);
+}
+
+.remember-me label {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  cursor: pointer;
+}
+
+.forgot-link {
+  font-size: 0.9rem;
+  color: var(--primary-color);
+}
+
+/* Form validation styling */
+.form-control.is-invalid {
+  border-color: var(--error-color);
+}
+
+.invalid-feedback {
+  color: var(--error-color);
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+/* Register page specific */
+.register-page .form-group {
+  margin-bottom: 1rem;
+}
+
+.terms-agreement {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.terms-agreement input[type="checkbox"] {
+  margin-top: 0.25rem;
+  accent-color: var(--primary-color);
+}
+
+.terms-agreement label {
+  font-size: 0.9rem;
+  color: var(--text-color);
+}
+
+.terms-agreement a {
+  color: var(--primary-color);
+}
+
+/* Media queries */
+@media (max-width: 576px) {
+  .remember-forgot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .auth-page h2 {
+    font-size: 1.5rem;
+  }
+}

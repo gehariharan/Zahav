@@ -1,0 +1,363 @@
+/* Dashboard Styles */
+
+.dashboard-page {
+  padding-bottom: 2rem;
+}
+
+.dashboard-header {
+  margin-bottom: 1.5rem;
+}
+
+.dashboard-header h1 {
+  margin-bottom: 0.25rem;
+  color: var(--text-color);
+}
+
+.date-display {
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+/* Currency Toggle */
+.currency-toggle {
+  display: flex;
+  margin-bottom: 1.5rem;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 0.25rem;
+  width: fit-content;
+}
+
+.currency-btn {
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.currency-btn.active {
+  background-color: white;
+  color: var(--primary-color);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Dashboard Grid Layout */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto;
+  gap: 1.5rem;
+  grid-template-areas:
+    "prices prices"
+    "bookings alerts"
+    "news news";
+}
+
+.price-cards {
+  grid-area: prices;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.recent-bookings {
+  grid-area: bookings;
+}
+
+.active-alerts {
+  grid-area: alerts;
+}
+
+.market-news {
+  grid-area: news;
+}
+
+/* Price Cards */
+.price-card {
+  flex: 1;
+  padding: 1.25rem;
+}
+
+.price-card.gold {
+  border-top: 4px solid #ffb700;
+}
+
+.price-card.silver {
+  border-top: 4px solid #c0c0c0;
+}
+
+.refresh-timestamp {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.refresh-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: var(--text-light);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.refresh-btn:hover {
+  transform: rotate(180deg);
+  color: var(--primary-color);
+}
+
+.timestamp {
+  font-size: 0.75rem;
+  color: var(--text-light);
+}
+
+.price-details {
+  margin: 1.25rem 0;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.price-label {
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.price-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.price-unit {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  margin-left: 0.25rem;
+}
+
+.price-range {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: var(--text-light);
+}
+
+.range-label {
+  font-weight: 500;
+  margin-right: 0.25rem;
+}
+
+.card-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* Recent Bookings */
+.view-all-link {
+  font-size: 0.875rem;
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.view-all-link:hover {
+  text-decoration: underline;
+}
+
+.bookings-list {
+  margin-top: 0.5rem;
+}
+
+.booking-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.booking-item:last-child {
+  border-bottom: none;
+}
+
+.booking-primary {
+  margin-bottom: 0.25rem;
+}
+
+.booking-metal {
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+.booking-secondary {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.85rem;
+  color: var(--text-light);
+}
+
+.booking-status {
+  font-weight: 500;
+}
+
+.status-pending {
+  color: var(--warning-color);
+}
+
+.status-completed {
+  color: var(--success-color);
+}
+
+.status-cancelled {
+  color: var(--error-color);
+}
+
+.booking-price {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+/* Alerts */
+.alerts-list {
+  margin-top: 0.5rem;
+}
+
+.alert-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.alert-item:last-child {
+  border-bottom: none;
+}
+
+.alert-primary {
+  margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.alert-metal {
+  font-weight: 600;
+}
+
+.alert-condition {
+  font-size: 0.85rem;
+  padding: 0.15rem 0.5rem;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
+
+.alert-value {
+  font-weight: 500;
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.alert-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* News */
+.news-list {
+  margin-top: 0.5rem;
+}
+
+.news-item {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.news-item:last-child {
+  border-bottom: none;
+}
+
+.news-title {
+  margin-bottom: 0.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.news-meta {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+/* Empty States */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.empty-state p {
+  margin-bottom: 1rem;
+  color: var(--text-light);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "prices"
+      "bookings"
+      "alerts"
+      "news";
+  }
+  
+  .price-cards {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .view-all-link {
+    margin-top: 0.5rem;
+  }
+  
+  .booking-item,
+  .alert-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .booking-price {
+    margin-top: 0.5rem;
+  }
+  
+  .alert-actions {
+    margin-top: 0.5rem;
+  }
+}

@@ -1,0 +1,72 @@
+/* Card Component Styles */
+.custom-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.custom-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.5rem 1.5rem 0.75rem;
+}
+
+.card-header-content {
+  flex: 1;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.card-subtitle {
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: var(--text-light);
+}
+
+.card-action {
+  margin-left: 1rem;
+}
+
+.card-body {
+  padding: 0.75rem 1.5rem 1.5rem;
+}
+
+.card-footer {
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid var(--border-color);
+  background-color: #fafafa;
+}
+
+/* Variations */
+.card-elevated {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.card-bordered {
+  border: 1px solid var(--border-color);
+  box-shadow: none;
+}
+
+.card-compact .card-header {
+  padding: 1rem 1rem 0.5rem;
+}
+
+.card-compact .card-body {
+  padding: 0.5rem 1rem 1rem;
+}
+
+.card-compact .card-footer {
+  padding: 0.75rem 1rem;
+}

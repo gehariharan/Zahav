@@ -1,0 +1,55 @@
+/* Alert Component Styles */
+.alert-component {
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.alert-content {
+  flex: 1;
+}
+
+.alert-dismiss-btn {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  margin-left: 1rem;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.alert-dismiss-btn:hover {
+  opacity: 1;
+}
+
+/* Alert Types */
+.alert-info {
+  background-color: #e0f4ff;
+  color: #0066cc;
+  border-color: #b8e2ff;
+}
+
+.alert-success {
+  background-color: #e8f6e8;
+  color: #28a745;
+  border-color: #c9e9cb;
+}
+
+.alert-warning {
+  background-color: #fff7e0;
+  color: #f57c00;
+  border-color: #ffe7af;
+}
+
+.alert-error {
+  background-color: #feebeb;
+  color: #d32f2f;
+  border-color: #fcd0d0;
+}
