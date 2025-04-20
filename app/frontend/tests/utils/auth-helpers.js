@@ -9,16 +9,22 @@
 async function loginViaUI(page, username, password) {
   // Navigate to login page
   await page.goto('/login');
-  
+
+  // Wait for the login form to be visible
+  await page.waitForSelector('#username', { state: 'visible' });
+
   // Fill out login form
   await page.fill('#username', username);
   await page.fill('#password', password);
-  
+
   // Click login button
   await page.click('button[type="submit"]');
-  
+
   // Wait for navigation to complete (should go to dashboard if successful)
   await page.waitForURL('/dashboard');
+
+  // Wait for the dashboard to load
+  await page.waitForSelector('.dashboard-page', { state: 'visible', timeout: 10000 });
 }
 
 /**
@@ -33,30 +39,33 @@ async function loginViaAPI(page, username, password) {
   formData.append('username', username);
   formData.append('password', password);
 
-  // API call to get token
-  const responsePromise = page.waitForResponse(response => 
-    response.url().includes('/auth/token') && response.status() === 200
-  );
+  try {
+    // Execute API request
+    const response = await page.request.post('http://localhost:8000/auth/token', {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      data: formData.toString(),
+    });
 
-  // Execute API request
-  const response = await page.request.post('http://localhost:8000/auth/token', {
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    data: formData.toString(),
-  });
+    const responseBody = await response.json();
+    const token = responseBody.access_token;
 
-  await responsePromise;
-  const responseBody = await response.json();
-  const token = responseBody.access_token;
+    // Set token in localStorage to simulate logged in state
+    await page.evaluate((token) => {
+      localStorage.setItem('token', token);
+    }, token);
 
-  // Set token in localStorage to simulate logged in state
-  await page.evaluate((token) => {
-    localStorage.setItem('token', token);
-  }, token);
+    // Reload page to apply the token in context
+    await page.goto('/dashboard');
 
-  // Reload page to apply the token in context
-  await page.goto('/dashboard');
+    // Wait for the dashboard to load
+    await page.waitForSelector('.dashboard-page', { state: 'visible', timeout: 10000 });
+  } catch (error) {
+    console.error('Login via API failed:', error);
+    // Fallback to UI login if API fails
+    await loginViaUI(page, username, password);
+  }
 }
 
 /**
@@ -88,10 +97,10 @@ async function createTestUser(page, userData) {
 async function logout(page) {
   // Click the user menu
   await page.click('[data-testid="user-menu"]');
-  
+
   // Click the logout button
   await page.click('[data-testid="logout-button"]');
-  
+
   // Wait for redirect to login page
   await page.waitForURL('/login');
 }

@@ -23,6 +23,19 @@
   margin-bottom: 1.5rem;
 }
 
+.booking-ai-card {
+  grid-column: 1 / -1;
+  height: 500px;
+}
+
+.booking-assistant {
+  height: 100%;
+}
+
+.booking-mode-toggle {
+  margin-top: 1rem;
+}
+
 @media (max-width: 768px) {
   .booking-content {
     grid-template-columns: 1fr;

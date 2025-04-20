@@ -23,6 +23,19 @@
   margin-bottom: 1.5rem;
 }
 
+.alert-ai-card {
+  grid-column: 1 / -1;
+  height: 500px;
+}
+
+.alert-assistant {
+  height: 100%;
+}
+
+.alerts-mode-toggle {
+  margin-top: 1rem;
+}
+
 @media (max-width: 768px) {
   .alerts-content {
     grid-template-columns: 1fr;

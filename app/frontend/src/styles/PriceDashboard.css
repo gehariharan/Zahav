@@ -94,10 +94,54 @@
   margin-bottom: 2rem;
 }
 
+/* Price card selection styles */
+.price-card-component {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.price-card-component:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.price-card-component.selected {
+  border-color: var(--primary-color);
+  box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
+}
+
+.price-card-component.selected::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: var(--primary-color);
+}
+
+/* Historical Chart Section */
+.chart-section {
+  margin-bottom: 2rem;
+}
+
+/* Analytics Section */
+.analytics-section {
+  margin-bottom: 2rem;
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
 /* Additional info section */
 .additional-info {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1fr;
   gap: 1.5rem;
 }
 
@@ -171,6 +215,12 @@
 }
 
 /* Responsive adjustments */
+@media (max-width: 1200px) {
+  .analytics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 992px) {
   .additional-info {
     grid-template-columns: 1fr;

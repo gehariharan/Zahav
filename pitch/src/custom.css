@@ -1,0 +1,73 @@
+/* Custom styles for Zahav presentation */
+
+/* First slide styling */
+.slide.active {
+    overflow: hidden !important;
+}
+
+/* Gold-themed colors */
+:root {
+    --zahav-gold: #d4a81e;
+    --zahav-light-gold: #f4c542;
+    --zahav-dark-gold: #a08017;
+    --zahav-background: linear-gradient(135deg, #f7f7f7 0%, #e8d8a0 100%);
+}
+
+/* Prevent scrollbar on main content */
+.slide-content {
+    overflow: auto !important;
+    scrollbar-width: thin;
+    scrollbar-color: var(--zahav-gold) #f0f0f0;
+}
+
+/* Specific adjustment for slide 2 to prevent scrollbar */
+.slide:nth-child(2) ul {
+    margin-bottom: 10px;
+}
+
+.slide:nth-child(2) li {
+    margin-bottom: 5px;
+}
+
+.slide:nth-child(2) .slide-content {
+    overflow: hidden !important;
+}
+
+/* Specific adjustment for slide 4 to prevent scrollbar */
+.slide:nth-child(4) .slide-content {
+    overflow: hidden !important;
+}
+
+.slide:nth-child(4) img {
+    max-height: 280px;
+    object-fit: contain;
+}
+
+/* Styling for gold-themed scrollbar */
+.slide-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.slide-content::-webkit-scrollbar-track {
+    background: #f0f0f0;
+}
+
+.slide-content::-webkit-scrollbar-thumb {
+    background-color: var(--zahav-gold);
+    border-radius: 4px;
+}
+
+/* Improved typography */
+h1 {
+    font-weight: 500;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.subtitle {
+    font-weight: 300;
+}
+
+/* Better image styling */
+img {
+    border-radius: 4px;
+}

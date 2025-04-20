@@ -3,6 +3,8 @@ import { useAuth } from '../context/AuthContext';
 import PriceCard from '../components/common/PriceCard';
 import Card from '../components/common/Card';
 import Alert from '../components/common/Alert';
+import HistoricalChart from '../components/charts/HistoricalChart';
+import GoldPredictor from '../components/charts/GoldPredictor';
 import '../styles/PriceDashboard.css';
 
 // Mock data for initial display (will be replaced with API calls)
@@ -40,6 +42,7 @@ const PriceDashboard = () => {
   const [displayCurrency, setDisplayCurrency] = useState('INR');
   const [error, setError] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
+  const [selectedMetal, setSelectedMetal] = useState('gold');
 
   // Fetch data on initial load
   useEffect(() => {
@@ -114,6 +117,10 @@ const PriceDashboard = () => {
     setDisplayCurrency(prevCurrency => prevCurrency === 'INR' ? 'USD' : 'INR');
   };
 
+  const handleMetalSelect = (metal) => {
+    setSelectedMetal(metal.toLowerCase());
+  };
+
   if (loading) {
     return <div className="loading-spinner">Loading prices...</div>;
   }
@@ -168,6 +175,8 @@ const PriceDashboard = () => {
           currency={displayCurrency}
           lastUpdated="Just now"
           onRefresh={() => handleRefresh('gold')}
+          className={selectedMetal === 'gold' ? 'selected' : ''}
+          onClick={() => handleMetalSelect('gold')}
         />
 
         <PriceCard 
@@ -180,6 +189,8 @@ const PriceDashboard = () => {
           currency={displayCurrency}
           lastUpdated="Just now"
           onRefresh={() => handleRefresh('silver')}
+          className={selectedMetal === 'silver' ? 'selected' : ''}
+          onClick={() => handleMetalSelect('silver')}
         />
 
         <PriceCard 
@@ -192,6 +203,8 @@ const PriceDashboard = () => {
           currency={displayCurrency}
           lastUpdated="Just now"
           onRefresh={() => handleRefresh('platinum')}
+          className={selectedMetal === 'platinum' ? 'selected' : ''}
+          onClick={() => handleMetalSelect('platinum')}
         />
 
         <PriceCard 
@@ -204,54 +217,78 @@ const PriceDashboard = () => {
           currency={displayCurrency}
           lastUpdated="Just now"
           onRefresh={() => handleRefresh('palladium')}
+          className={selectedMetal === 'palladium' ? 'selected' : ''}
+          onClick={() => handleMetalSelect('palladium')}
         />
       </div>
 
-      <div className="additional-info">
-        <Card title="Currency Exchange Rates" className="rates-card">
-          <div className="rates-grid">
-            <div className="rate-item">
-              <div className="rate-pair">USD/INR</div>
-              <div className="rate-value">{rates.USD_INR.toFixed(2)}</div>
-            </div>
-            <div className="rate-item">
-              <div className="rate-pair">EUR/INR</div>
-              <div className="rate-value">{rates.EUR_INR.toFixed(2)}</div>
-            </div>
-            <div className="rate-item">
-              <div className="rate-pair">GBP/INR</div>
-              <div className="rate-value">{rates.GBP_INR.toFixed(2)}</div>
-            </div>
-            <div className="rate-item">
-              <div className="rate-pair">JPY/INR</div>
-              <div className="rate-value">{rates.JPY_INR.toFixed(2)}</div>
-            </div>
-          </div>
-        </Card>
+      {/* Historical Chart Component */}
+      <div className="chart-section">
+        <HistoricalChart 
+          metal={selectedMetal.charAt(0).toUpperCase() + selectedMetal.slice(1)}
+          currentPrice={prices[selectedMetal][displayCurrency].bid}
+          currency={displayCurrency}
+        />
+      </div>
 
-        <Card title="Market Overview" className="market-overview-card">
-          <p className="market-info">
-            The precious metals market is showing stability today, with gold maintaining support at key price levels. Silver continues to perform well due to increased industrial demand.
-          </p>
-          <div className="price-change-indicators">
-            <div className="indicator up">
-              <span className="indicator-label">Gold 24h Change</span>
-              <span className="indicator-value">+0.35%</span>
-            </div>
-            <div className="indicator up">
-              <span className="indicator-label">Silver 24h Change</span>
-              <span className="indicator-value">+0.68%</span>
-            </div>
-            <div className="indicator down">
-              <span className="indicator-label">Platinum 24h Change</span>
-              <span className="indicator-value">-0.12%</span>
-            </div>
-            <div className="indicator up">
-              <span className="indicator-label">Palladium 24h Change</span>
-              <span className="indicator-value">+0.24%</span>
-            </div>
+      {/* Analytics Section */}
+      <div className="analytics-section">
+        <div className="analytics-grid">
+          {/* Only show GoldPredictor for Gold */}
+          {selectedMetal === 'gold' && (
+            <GoldPredictor 
+              currentPrice={prices.gold[displayCurrency].bid}
+              currency={displayCurrency}
+            />
+          )}
+
+          <div className="additional-info">
+            <Card title="Currency Exchange Rates" className="rates-card">
+              <div className="rates-grid">
+                <div className="rate-item">
+                  <div className="rate-pair">USD/INR</div>
+                  <div className="rate-value">{rates.USD_INR.toFixed(2)}</div>
+                </div>
+                <div className="rate-item">
+                  <div className="rate-pair">EUR/INR</div>
+                  <div className="rate-value">{rates.EUR_INR.toFixed(2)}</div>
+                </div>
+                <div className="rate-item">
+                  <div className="rate-pair">GBP/INR</div>
+                  <div className="rate-value">{rates.GBP_INR.toFixed(2)}</div>
+                </div>
+                <div className="rate-item">
+                  <div className="rate-pair">JPY/INR</div>
+                  <div className="rate-value">{rates.JPY_INR.toFixed(2)}</div>
+                </div>
+              </div>
+            </Card>
+
+            <Card title="Market Overview" className="market-overview-card">
+              <p className="market-info">
+                The precious metals market is showing stability today, with gold maintaining support at key price levels. Silver continues to perform well due to increased industrial demand.
+              </p>
+              <div className="price-change-indicators">
+                <div className="indicator up">
+                  <span className="indicator-label">Gold 24h Change</span>
+                  <span className="indicator-value">+0.35%</span>
+                </div>
+                <div className="indicator up">
+                  <span className="indicator-label">Silver 24h Change</span>
+                  <span className="indicator-value">+0.68%</span>
+                </div>
+                <div className="indicator down">
+                  <span className="indicator-label">Platinum 24h Change</span>
+                  <span className="indicator-value">-0.12%</span>
+                </div>
+                <div className="indicator up">
+                  <span className="indicator-label">Palladium 24h Change</span>
+                  <span className="indicator-value">+0.24%</span>
+                </div>
+              </div>
+            </Card>
           </div>
-        </Card>
+        </div>
       </div>
     </div>
   );

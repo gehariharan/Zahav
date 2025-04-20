@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+  <!-- No background - transparent -->
+  
+  <!-- Gold bar stack -->
+  <g transform="translate(170, 140)">
+    <!-- Bottom bar -->
+    <rect x="0" y="120" width="140" height="40" fill="#d4a81e" rx="2" ry="2"/>
+    <rect x="0" y="120" width="140" height="10" fill="#f4c542" rx="2" ry="2"/>
+    
+    <!-- Middle bar -->
+    <rect x="20" y="80" width="140" height="40" fill="#e5b72f" rx="2" ry="2"/>
+    <rect x="20" y="80" width="140" height="10" fill="#f8d465" rx="2" ry="2"/>
+    
+    <!-- Top bar -->
+    <rect x="40" y="40" width="140" height="40" fill="#d4a81e" rx="2" ry="2"/>
+    <rect x="40" y="40" width="140" height="10" fill="#f4c542" rx="2" ry="2"/>
+    
+    <!-- Shine effects -->
+    <path d="M160,50 L170,60 L160,70" fill="#f8d465" opacity="0.7"/>
+    <path d="M140,90 L150,100 L140,110" fill="#f8d465" opacity="0.7"/>
+    <path d="M120,130 L130,140 L120,150" fill="#f8d465" opacity="0.7"/>
+  </g>
+  
+  <!-- Hebrew letter Zayin - enlarged and integrated -->
+  <g transform="translate(60, 160) scale(2.5)">
+    <!-- Stylized Hebrew Zayin (ז) -->
+    <path d="M65,40 L85,40 L85,50 L75,50 L75,90 L65,90" 
+          fill="#d4a81e" stroke="#a08017" stroke-width="2"/>
+    <!-- Gold highlight on letter -->
+    <path d="M67,42 L83,42 L83,48 L73,48" 
+          fill="#f8d465" stroke-width="0"/>
+  </g>
+  
+  <!-- Company name in modern font -->
+  <text x="250" y="350" font-family="'Segoe UI', Helvetica, sans-serif" font-size="64" font-weight="300" text-anchor="middle" fill="#333" letter-spacing="10">ZAHAV</text>
+</svg>

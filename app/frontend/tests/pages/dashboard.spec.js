@@ -11,10 +11,10 @@ test.describe('Dashboard Page', () => {
   test('should redirect to login when not authenticated', async ({ page }) => {
     // Clear the authentication
     await page.evaluate(() => localStorage.removeItem('token'));
-    
+
     // Try to access dashboard
     await page.goto('/dashboard');
-    
+
     // Should redirect to login
     await expect(page).toHaveURL('/login');
   });
@@ -22,7 +22,7 @@ test.describe('Dashboard Page', () => {
   test('should display user information', async ({ page }) => {
     // Go to dashboard
     await page.goto('/dashboard');
-    
+
     // Verify user information is displayed
     // This depends on your actual implementation
     await expect(page.locator('[data-testid="user-greeting"]')).toBeVisible();
@@ -31,7 +31,7 @@ test.describe('Dashboard Page', () => {
   test('should have navigation menu with required links', async ({ page }) => {
     // Go to dashboard
     await page.goto('/dashboard');
-    
+
     // Verify navigation links
     await expect(page.locator('a[href="/dashboard"]')).toBeVisible();
     await expect(page.locator('a[href="/prices"]')).toBeVisible();
@@ -45,19 +45,23 @@ test.describe('Dashboard Page', () => {
   test('should display dashboard widgets', async ({ page }) => {
     // Go to dashboard
     await page.goto('/dashboard');
-    
+
+    // Wait for page to load completely
+    await page.waitForSelector('.dashboard-page', { state: 'visible' });
+
     // Verify dashboard widgets are displayed
-    // Replace these with actual selectors from your implementation
-    await expect(page.locator('.dashboard-widget')).toHaveCount.atLeast(1);
+    await expect(page.locator('.price-card')).toBeVisible();
+    await expect(page.locator('.recent-bookings-card')).toBeVisible();
+    await expect(page.locator('.active-alerts-card')).toBeVisible();
   });
 
   test('should navigate to other sections', async ({ page }) => {
     // Go to dashboard
     await page.goto('/dashboard');
-    
+
     // Click on prices link
     await page.click('a[href="/prices"]');
-    
+
     // Verify navigation
     await expect(page).toHaveURL('/prices');
   });
@@ -70,10 +74,10 @@ test.describe('Dashboard Page', () => {
         body: JSON.stringify({ error: 'Internal server error' })
       });
     });
-    
+
     // Go to dashboard
     await page.goto('/dashboard');
-    
+
     // Verify error state is displayed
     // Replace this with the actual error state selector
     await expect(page.locator('.error-message, .alert-error')).toBeVisible();

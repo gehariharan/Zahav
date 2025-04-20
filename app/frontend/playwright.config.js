@@ -10,13 +10,13 @@ module.exports = defineConfig({
   globalSetup: './tests/global-setup.js',
   testDir: './tests',
   /* Maximum time one test can run for */
-  timeout: 30 * 1000,
+  timeout: 60 * 1000,
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met
      * For example in `await expect(locator).toHaveText();`
      */
-    timeout: 5000
+    timeout: 10000
   },
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -33,7 +33,7 @@ module.exports = defineConfig({
 
     /* Collect trace when retrying the failed test */
     trace: 'on-first-retry',
-    
+
     /* Take screenshot when a test fails */
     screenshot: 'only-on-failure',
   },

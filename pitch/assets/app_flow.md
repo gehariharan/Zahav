@@ -29,6 +29,7 @@ flowchart LR
         D --> H[Rate Alerts]
         D --> I[Commodity & Currency Tracker]
         D --> J[Dealer Tools]
+        D --> K[AI Assistant]
     end
 
     subgraph "Real-Time Price Dashboard"
@@ -40,21 +41,29 @@ flowchart LR
     end
 
     subgraph "Booking System"
-        G --> G1[Select Metal Type]
+        G --> G0{Use AI Assistant?}
+        G0 -->|No| G1[Select Metal Type]
+        G0 -->|Yes| G9[Natural Language Input]
+        G9 --> G10[AI Processes Request]
+        G10 --> G4[Review Order]
         G1 --> G2[Select Purity]
         G2 --> G3[Enter Quantity]
-        G3 --> G4[Review Order]
+        G3 --> G4
         G4 --> G5{Confirm?}
         G5 -->|Yes| G6[Process Order]
-        G5 -->|No| G1
+        G5 -->|No| G0
         G6 --> G7[Order Confirmation]
         G7 --> G8[Order Tracking]
     end
 
     subgraph "Rate Alerts"
-        H --> H1[Set Price Target]
-        H --> H2[Set Percentage Change]
-        H1 --> H3[Configure Notification]
+        H --> H0{Use AI Assistant?}
+        H0 -->|No| H1[Set Price Target]
+        H0 -->|Yes| H6[Natural Language Input]
+        H6 --> H7[AI Processes Request]
+        H7 --> H3[Configure Notification]
+        H0 -->|No| H2[Set Percentage Change]
+        H1 --> H3
         H2 --> H3
         H3 --> H4[Alert Active]
         H4 -->|Target Reached| H5[Push Notification]
@@ -78,5 +87,13 @@ flowchart LR
     subgraph "Security Features"
         B --> S1[Multi-factor Authentication]
         S1 --> S2[Data Encryption]
+    end
+
+    subgraph "AI Assistant"
+        K --> K1[Natural Language Processing]
+        K --> K2[Booking Creation]
+        K --> K3[Alert Setup]
+        K --> K4[Price Inquiries]
+        K1 --> K5[Context-Aware Responses]
     end
 ```

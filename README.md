@@ -20,11 +20,13 @@ Zahav is a comprehensive platform for gold and bullion dealers with refinery cap
 - Streamlined metal booking process
 - Customizable order specifications
 - Order tracking and management
+- AI-driven natural language booking creation
 
 ### Rate Alerts
 - Customizable price alerts for all metals
 - Multiple notification methods (email, SMS, push)
 - Alert history and management
+- AI-driven natural language alert creation
 
 ### Tracking System
 - Real-time shipment tracking
@@ -102,6 +104,7 @@ zahav/
 - Axios - API communication
 - Chart.js - Data visualization
 - CSS - Custom styling
+- Natural Language Processing - AI-driven interactions
 
 ## Getting Started
 
@@ -229,6 +232,15 @@ The project includes comprehensive documentation in the `docs/` directory:
 - **User & Developer Guides**: Instructions for using and extending the application
 - **Architecture Diagrams**: Visual representations of the system architecture
 - **Tutorials**: Step-by-step guides for common tasks and workflows
+- **AI Features**: Documentation on using the AI-driven natural language features
+
+See [AI_FEATURES.md](app/frontend/src/docs/AI_FEATURES.md) for detailed information on using the natural language processing capabilities.
+
+### Flow Diagrams
+
+- [Application Flow](pitch/assets/app_flow.md): Overall application flow diagram
+- [AI Features Flow](pitch/assets/ai_features_flow.md): Detailed flow of AI-driven features
+- [AI Architecture](pitch/assets/ai_architecture.md): Architecture diagram of AI components
 
 To view the documentation:
 
@@ -270,6 +282,8 @@ npm run test:e2e
 - [ ] Implement multi-language support
 - [ ] Add two-factor authentication
 - [ ] Enhance reporting and analytics
+- [ ] Expand AI capabilities with advanced NLP models
+- [ ] Add voice input for AI assistant
 
 ## Contributing
 
