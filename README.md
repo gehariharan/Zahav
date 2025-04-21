@@ -236,12 +236,6 @@ The project includes comprehensive documentation in the `docs/` directory:
 
 See [AI_FEATURES.md](app/frontend/src/docs/AI_FEATURES.md) for detailed information on using the natural language processing capabilities.
 
-### Flow Diagrams
-
-- [Application Flow](pitch/assets/app_flow.md): Overall application flow diagram
-- [AI Features Flow](pitch/assets/ai_features_flow.md): Detailed flow of AI-driven features
-- [AI Architecture](pitch/assets/ai_architecture.md): Architecture diagram of AI components
-
 To view the documentation:
 
 ```
