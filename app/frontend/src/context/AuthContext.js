@@ -1,18 +1,13 @@
 import React, { createContext, useState, useContext, useEffect, useMemo, useCallback } from 'react';
 import axios from 'axios';
 import { debounce } from '../utils/debounce';
+import { API_URL } from '../config';
 
 // Create the authentication context
 const AuthContext = createContext();
 
 // Custom hook to use the auth context
 export const useAuth = () => useContext(AuthContext);
-
-// API base URL
-const API_URL = 'http://localhost:8000';
-
-// For debugging
-console.log('Using API URL:', API_URL);
 
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
