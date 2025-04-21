@@ -6,7 +6,7 @@
  */
 
 // API Configuration
-export const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+export const API_URL = process.env.REACT_APP_API_URL || 'https://shastha.online';
 
 // Debug mode
 export const DEBUG = process.env.NODE_ENV !== 'production';
