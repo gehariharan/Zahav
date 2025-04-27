@@ -12,41 +12,21 @@ app = FastAPI(
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        # Local development
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-
-        # Production domains with Cloudflare
-        "https://shastha.online",
-        "http://shastha.online",
-
-        # If using www subdomain
-        "https://www.shastha.online",
-        "http://www.shastha.online",
-
-        # If using API subdomain
-        "https://api.shastha.online",
-        "http://api.shastha.online",
-
-        # EC2 direct access (if needed for testing)
-        # Replace with your actual EC2 public IP or DNS
-        # "http://ec2-xx-xx-xx-xx.compute-1.amazonaws.com"
-    ],
+    allow_origins=["http://localhost:3000"],  # Adjust for production
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Include routers
-app.include_router(auth.router)
-app.include_router(users.router)
-app.include_router(prices.router)
-app.include_router(bookings.router)
-app.include_router(alerts.router)
+# To this:
+app.include_router(auth.router, prefix="/api")
+app.include_router(users.router, prefix="/api")
+app.include_router(prices.router, prefix="/api")
+app.include_router(bookings.router, prefix="/api")
+app.include_router(alerts.router, prefix="/api")
 
-
-@app.get("/")
-async def root():
-    """Root endpoint for health check."""
+# Also add a root endpoint for /api
+@app.get("/api")
+async def api_root():
+    """API root endpoint for health check."""
     return {"message": "Welcome to Zahav API", "status": "operational"}
