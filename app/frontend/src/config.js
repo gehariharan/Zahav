@@ -6,7 +6,7 @@
  */
 
 // API Configuration
-export const API_URL = process.env.REACT_APP_API_URL || 'https://shastha.online';
+export const API_URL = process.env.REACT_APP_API_URL || 'https://shastha.online/api';
 
 // Debug mode
 export const DEBUG = process.env.NODE_ENV !== 'production';
