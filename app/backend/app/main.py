@@ -12,10 +12,11 @@ app = FastAPI(
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://shastha.online","http://localhost:3000"],  # Adjust for production
+    allow_origins=["https://shastha.online","http://localhost:3000","http://shastha.online"],  # Adjust for production
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE","OPTIONS"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 # To this:
