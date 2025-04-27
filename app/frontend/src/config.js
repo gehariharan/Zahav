@@ -17,3 +17,10 @@ if (DEBUG) {
   console.log('- API_URL:', API_URL);
   console.log('- Environment:', process.env.NODE_ENV);
 }
+
+// Debug logging
+console.log('Environment variables:', {
+  REACT_APP_API_URL: process.env.REACT_APP_API_URL,
+  NODE_ENV: process.env.NODE_ENV
+});
+

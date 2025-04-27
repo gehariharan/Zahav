@@ -3,6 +3,8 @@ import axios from 'axios';
 import { debounce } from '../utils/debounce';
 import { API_URL } from '../config';
 
+console.log('Current API URL:', API_URL);
+
 // Create the authentication context
 const AuthContext = createContext();
 
@@ -154,3 +156,4 @@ export const AuthProvider = ({ children }) => {
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
+
